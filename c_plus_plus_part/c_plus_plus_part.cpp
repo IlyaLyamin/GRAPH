@@ -1,11 +1,10 @@
-﻿#include <iostream>
-#include "Header1.h"
+﻿#include "Header1.h"
+//#include "MyVector.cpp"
 
 using namespace std;
 
 
 int main() {
-	hello(0);
 	setlocale(LC_ALL, "rus");
 
 	MyVector<int> vec_;
@@ -23,7 +22,15 @@ int main() {
 	OutputMyVector(vec_);
 	cout << endl << "Измените размер вектора: ";
 	cin >> N;
-	vec_.SetSize(N);
+
+	if (N < vec_.Length()) {
+		vec_.SetSize(N);
+		cout << "осталось: ";
+		OutputMyVector(vec_);
+	}
+	else {
+		vec_.SetSize(N);
+	}
 	if (N != 0)
 	{
 		for (int i = 0; i < N; i++)

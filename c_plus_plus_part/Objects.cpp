@@ -1,6 +1,6 @@
-#include <iostream>
-#include "MyVector.cpp"
+//#include "MyVector.cpp"
 #include "Exceptions.h"
+#include "MyVector.cpp"
 using namespace std;
 
 

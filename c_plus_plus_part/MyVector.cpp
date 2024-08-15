@@ -10,81 +10,6 @@ void MySwap(MyType& element1, MyType& element2) {
 	element2 = element3;
 }
 
-class MyIntVector {
-
-public:
-	MyIntVector() : length(0), capacity(1), dataPointer(new int[1]) {}// инициализация без аргумента
-
-	MyIntVector(const MyIntVector& rhs) {// инициализация с аргументом
-		length = rhs.Length();
-		capacity = rhs.Capacity();
-		dataPointer = new int[capacity];
-		for (int i = 0; i < length; i++) {
-			dataPointer[i] = rhs[i];
-		}
-	}
-
-	~MyIntVector() {// деструктор
-		delete[] dataPointer;
-	}
-
-	void PushBack(int newElement) {
-		length == capacity ? UpCapacity(capacity + 1) : UpCapacity(capacity);// увелечение вместительности при необходимости
-		dataPointer[length] = newElement;
-		length++;
-	}
-
-	int& operator[] (int index) {// оператор получения элемента по индексу(не константных элементов)
-		return *(dataPointer + index);
-	}
-
-	int& operator[](int index) const {// оператор получения элемента по индексу(константных)
-		return *(dataPointer + index);
-	}
-
-	MyIntVector& operator= (const MyIntVector& rhs) {// оператор присвоения 
-		delete[] dataPointer;
-		length = rhs.Length();
-		capacity = rhs.Capacity();
-		dataPointer = new int[capacity];
-		for (int i = 0; i < length; i++) {
-			dataPointer[i] = rhs[i];
-		}
-		return *this;
-	}
-
-	bool IsEmpty() const {
-		return this->length == 0;
-	}
-	int Length() const {
-		return this->length;
-	}
-	int Capacity() const {
-		return this->capacity;
-	}
-	void SetSize(int newLength) {// то что требовалось по заднию
-		UpCapacity(newLength);
-		length = newLength;
-	}
-
-private:
-
-	int length;
-	int capacity;
-	int* dataPointer;
-
-	void UpCapacity(int newCapacity) {// увелечение вместительности
-		if (newCapacity > capacity) {
-			int* X = new int[newCapacity];
-			for (int i = 0; i < length; i++) {
-				X[i] = *(dataPointer + i);
-			}
-			delete[] dataPointer;
-			dataPointer = X;
-			capacity = newCapacity;
-		}
-	}
-};
 
 template <class TypeOfElement>
 class MyVector {
@@ -106,7 +31,7 @@ public:
 	};
 
 	void PushBack(TypeOfElement newElement) {
-		UpCapacity(length + 1);
+		ChangeCapacity(length + 1);
 		*(dataPointer + length) = newElement;
 		length++;
 	}
@@ -141,11 +66,11 @@ public:
 	}
 
 	void SetSize(int newLength) {
-		UpCapacity(newLength);
+		ChangeCapacity(newLength);
 		length = newLength;
-		TypeOfElement* X = new TypeOfElement[length];
-		delete[] dataPointer;
-		dataPointer = X;
+		//TypeOfElement* X = new TypeOfElement[length];
+		//delete[] dataPointer;
+		//dataPointer = X;
 	}
 
 private:
@@ -153,15 +78,24 @@ private:
 	int capacity;
 	TypeOfElement* dataPointer;
 
-	void UpCapacity(int newCapacity) {
+	void ChangeCapacity(int newCapacity) {
 		if (newCapacity > capacity) {
 			TypeOfElement* X = new TypeOfElement[newCapacity];
 			for (int i = 0; i < length; i++) {
 				X[i] = *(dataPointer + i);
 			}
 			delete[] dataPointer;
-			dataPointer = X;
+			this->dataPointer = X;
 			capacity = newCapacity;
+		}
+		else {
+			capacity = newCapacity;
+			TypeOfElement* X = new TypeOfElement[newCapacity];
+			for (int i = 0; i < capacity; i++) {
+				X[i] = *(dataPointer + i);
+			}
+			delete[] dataPointer;
+			dataPointer = X;
 		}
 	}
 
