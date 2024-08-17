@@ -8,11 +8,10 @@ class Road {
 public:
 	Road() :col_points(0), len(0) {}
 
-	Road(int col_points){
-		this -> col_points = col_points;
-		Points.SetSize(col_points);
-		Lengths.SetSize(col_points - 1);
-		check_length();
+	Road(char start_point) {
+		col_points = 1;
+		len = 0;
+		Points.PushBack(start_point);
 	}
 
 	void add_one_point(char name, int length) {
@@ -22,7 +21,7 @@ public:
 	}
 
 	void del_last_point() {
-		Points.SetSize(len - 1);// допиши сохранение предыдущих элементов
+		Points.SetSize(len - 1);
 	}
 
 	void check_length() {

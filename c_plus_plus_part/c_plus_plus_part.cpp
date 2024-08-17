@@ -1,63 +1,36 @@
 ﻿#include "Header1.h"
-//#include "MyVector.cpp"
+#include <map>
+// просто в матричном виде
+// создаём словарь
+// питон закидывает записанные точки в файл, оттуда их читаеат программа
 
 using namespace std;
 
 
+void fill_dict(map<unsigned short int, string>* dict, string* names) {// на конце names должен быть 0
+	unsigned short int i = 0;
+	while (names[i] != "0") {
+		(*dict)[i] = string(names[i]);// names[i];
+		cout << names[i] << endl;
+		i++;
+	}
+	names[i] = "0";
+}
+
+
 int main() {
 	setlocale(LC_ALL, "rus");
+	map<unsigned short int, string> dict;
+	string* a = new string[10];// names
 
-	MyVector<int> vec_;
-	int N;
-
-	cout << "Введите количество элементов: ";
-	cin >> N;
-	InputMyVector(vec_, N);
-	//vec.SetSize(N);
-	//for (int i = 0; i < N; i++) {
-	//	cout << "Элемент массива " << i + 1 << " равен: ";
-	//	cin >> vec[i];
-	//	cout << endl;
-	//}
-	OutputMyVector(vec_);
-	cout << endl << "Измените размер вектора: ";
-	cin >> N;
-
-	if (N < vec_.Length()) {
-		vec_.SetSize(N);
-		cout << "осталось: ";
-		OutputMyVector(vec_);
+// тестовый массив
+	for (int i = 0; i < 9; i++) {
+		a[i] = 'i';
 	}
-	else {
-		vec_.SetSize(N);
+	a[9] = '0';
+//
+	for (int i = 0; i < 10; i++) {
+		cout << a[i];
 	}
-	if (N != 0)
-	{
-		for (int i = 0; i < N; i++)
-		{
-			cout << "Элемент массива " << i + 1 << " равен: ";
-			cin >> vec_[i];
-			cout << endl;
-		}
-	}
-	OutputMyVector(vec_);
-
-	// Myvector
-	MyVector<char> vec_2;
-	int N_2;
-
-	cout << "Введите количество элементов: ";
-	cin >> N_2;
-	vec_2.SetSize(N_2);
-	for (int i = 0; i < N_2; i++) {
-		cout << "Элемент массива " << i + 1 << " равен: ";
-		cin >> vec_2[i];
-		cout << endl;
-	}
-	//Вывод
-	for (int i = 0; i < N_2; i++)
-	{
-		cout << vec_2[i] << " ";
-	}
-	cout << endl;
+	fill_dict(&dict, a);
 }
