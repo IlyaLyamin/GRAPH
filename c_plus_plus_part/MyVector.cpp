@@ -68,9 +68,6 @@ public:
 	void SetSize(int newLength) {
 		ChangeCapacity(newLength);
 		length = newLength;
-		//TypeOfElement* X = new TypeOfElement[length];
-		//delete[] dataPointer;
-		//dataPointer = X;
 	}
 
 private:
