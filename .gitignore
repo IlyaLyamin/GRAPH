@@ -1,5 +1,6 @@
 *.opendb
 .vs/
+.idea
 
 # Prerequisites
 *.d
