@@ -19,11 +19,10 @@ def create_table(lists: np.array):# в этом месте можно приду
         search = search[1:]
     DataFrame = pd.DataFrame(final_array, index=points, columns=points)
     print(points)
-    DataFrame.loc[points[-1], points[-1]] = str(DataFrame.loc[points[-1], points[-1]]) + '!'
     print(DataFrame)# можно было просто выкидывать рёбра
     f = open("C:/projects/GRAPH/c_plus_plus_part/table.csv", 'w+', newline='')
     f.write(f"{len(points)}\n")
-    DataFrame.to_csv(f, index=False)
+    DataFrame.to_csv(f, index=False, header=False)
     f.close()
     f_2 = open("C:/projects/GRAPH/c_plus_plus_part/vertices.csv", 'w+')
     f_2.write(' '.join(points))
@@ -33,7 +32,12 @@ def create_table(lists: np.array):# в этом месте можно приду
 
 
 def main():
-    lists = np.array([["A", "B", 3], ["B", "C", 6], ["C", "D", 21], ["D", "A", 5]])
+    lists = np.array([["1", "4", 12],
+                     ["1", "5", 5],
+                     ["2", "3", 13],
+                     ["2", "5", 9],
+                     ["4", "5", 9],
+                     ["4", "6", 16]])
     create_table(lists)
 
 

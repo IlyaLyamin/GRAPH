@@ -68,6 +68,8 @@ void read_file_array(int col_p, string* points, int** array) {
 		// Считываем файл построчно
 		int row = 0;
 		
+		fgets(line, sizeof(line), file);
+
 		while (fgets(line, sizeof(line), file)) {
 			column = 0;
 			// Указатель для разделения строки
@@ -93,6 +95,7 @@ void read_file_array(int col_p, string* points, int** array) {
 			}
 		}
 		fclose(file);
+		fclose(file_2);
 	}
 	catch (const std::exception&)
 	{
