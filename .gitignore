@@ -1,3 +1,5 @@
+*.table.csv
+*.table.csv
 *.opendb
 .vs/
 
