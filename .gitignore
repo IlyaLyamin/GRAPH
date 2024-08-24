@@ -2,7 +2,7 @@
 *.table.csv
 *.opendb
 .vs/
-.idea
+*.idea
 
 # Prerequisites
 *.d

@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include <map>
 #include <stdlib.h>  // Для использования функции strtol()
+#include <set>
 
 // просто в матричном виде
 // создаём словарь
@@ -104,13 +105,31 @@ void read_file_array(int col_p, string* points, int** array) {
 }
 
 
-
-
 void fill_dict(map<unsigned short int, string>* dict, string* names, int col_p) {
 	unsigned short int i = 0;
 	for (int i = 0;i < col_p; i++){
 		(*dict)[i] = names[i];// names[i];
 	}
+}
+
+
+void floid_aloritm_undirected(map<unsigned short int, string>* dict, int** array, int col_p) {
+	map<set<int>, Road> main_dict;
+	int col_road = 0;
+	for (int i = 0; i < col_p; i++) {// Общее количество дорог не больше суммы первых n-1-го элемента в случае неоринтированного графа
+		col_road += i;
+	}
+	// заполняем базовый главный словарь
+	for (int row = 0; row < col_p; row++) {
+		for (int column = (row + 1); column < col_p; column++) {
+			main_dict[{row, column}] = Road((*dict)[row]);
+			if (array[row][column] != -1) {
+				main_dict[{row, column}].add_one_point((*dict)[column], array[row][column]);
+			}
+			main_dict[{row, column}].check_all_inf();
+		}
+	}
+
 }
 
 
@@ -142,4 +161,6 @@ int main() {
 	for (int i = 0; i < col_points; i++) {
 		cout << dict[i] << " ";
 	}
+
+	floid_aloritm_undirected(&dict, array, col_points);
 }
