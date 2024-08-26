@@ -64,6 +64,7 @@ void read_file_array(int col_p, string* points, int** array) {
 		for (int i = 0; i < col_p; i++) {
 			cout << points[i] << " ";
 		}
+		cout << "\n";
 		//
 
 		// Считываем файл построчно
@@ -125,11 +126,55 @@ void floid_aloritm_undirected(map<unsigned short int, string>* dict, int** array
 			main_dict[{row, column}] = Road((*dict)[row]);
 			if (array[row][column] != -1) {
 				main_dict[{row, column}].add_one_point((*dict)[column], array[row][column]);
+				main_dict[{row, column}].check_all_inf();
 			}
-			main_dict[{row, column}].check_all_inf();
 		}
 	}
 
+	print_2d_arr(array, col_p);
+
+	//основной алгоритм
+	for (int i = 0; i < col_p; i++) {
+		for (int row = 0; row < col_p; row++) {
+			for (int column = (row + 1); column < col_p; column++) {
+				if ((row != i) && (column != i)) {
+					cout << "(" << i << " " << column << "," << i << " " << row << ")" << endl;// для проверки точности ячеек
+					int a = main_dict[{i, row}].get_len();
+					int b = main_dict[{i, column}].get_len();
+					//cout << a << " + " << b << " ? " << main_dict[{column, row}].get_len() << endl;
+					if ((a) && (b) && not(main_dict[{column, row}].get_len())) {
+						//cout << "Новый путь-----------------------------" << endl;
+						main_dict[{column, row}] = (main_dict[{i, row}] + main_dict[{i, column}]);
+						//main_dict[{column, row}].check_all_inf();
+						array[row][column] = main_dict[{column, row}].get_len();
+						array[column][row] = main_dict[{column, row}].get_len();
+
+						cout << "(" << row << " " << column << ")" << endl;
+						//main_dict[{i, row}].check_all_inf();
+						//main_dict[{i, column}].check_all_inf();
+						cout << "Получилось:\n";
+						main_dict[{column, row}].check_all_inf();
+						cout << endl;
+					}
+					else if ((a) && (b) && ((a + b) < main_dict[{column, row}].get_len())) {
+						//cout << "Меняем-----------------" << endl;
+						main_dict[{column, row}] = main_dict[{i, row}] + main_dict[{i, column}];
+						array[row][column] = main_dict[{column, row}].get_len();
+						array[column][row] = main_dict[{column, row}].get_len();
+
+						//cout << "(" << row << " " << column << ")" << endl;
+						//main_dict[{i, row}].check_all_inf();
+						//main_dict[{i, column}].check_all_inf();
+						cout << "Получилось:\n";
+						main_dict[{column, row}].check_all_inf();
+						cout << endl;
+					}
+				}
+			}
+		}
+	}
+	cout << "-----------Loading...-----------\n";
+	print_2d_arr(array, col_p);
 }
 
 
@@ -149,12 +194,7 @@ int main() {
 	//
 	read_file_array(col_points, points, array);
 	// cout << array
-	for (int i = 0; i < col_points; i++) {
-		for (int j = 0; j < col_points; j++) {
-			cout << array[i][j] << " ";
-		}
-		cout << "\n";
-	}
+	print_2d_arr(array, col_points);
 	//
 	fill_dict(&dict, points, col_points);
 

@@ -36,6 +36,21 @@ public:
 		length++;
 	}
 
+	void Reverse() {
+		TypeOfElement* temporary = new TypeOfElement[length];
+		for (int i = (length - 1); i > 0; i--) {
+			temporary[length - i] = dataPointer[i];
+		}
+		delete[] dataPointer;
+		dataPointer = temporary;
+	}
+
+	void print() {
+		for (int i = 0; i < length; i++) {
+			cout << dataPointer[i] << " ";
+		}
+	}
+
 	TypeOfElement& operator[](int index) {
 		return *(dataPointer + index);
 	}

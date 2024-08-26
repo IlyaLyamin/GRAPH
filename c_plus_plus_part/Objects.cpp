@@ -3,6 +3,15 @@
 #include "MyVector.cpp"
 using namespace std;
 
+template <class Type> 
+void print_2d_arr(Type** array, int ind) {
+	for (int row = 0; row < ind; row++) {
+		for (int column = 0; column < ind; column++) {
+			cout << array[row][column] << " ";
+		}
+		cout << endl;
+	}
+}
 
 class Road {
 public:
@@ -59,17 +68,58 @@ public:
 
 	Road operator+(Road& rhs) {// вместо того, что бы использовать const просто создал доп метод в классе Road
 		Road new_r;
-		new_r.col_points = this->col_points + rhs.get_col_p();
+		new_r.col_points = this->col_points + rhs.get_col_p() - 1;
 		new_r.len = this->len + rhs.get_len();
 		
-		for (int i = 0; i < this->get_col_p(); i++) {
-			new_r.Points.PushBack(this->Points[i]);
-			new_r.Lengths.PushBack(this->Lengths[i]);
+		cout << "Смотри============================================\n";
+		this->Points.print();
+		cout << " -compare- ";
+		rhs.Points.print();
+		cout << endl;
+		// сейчас здесь будет написан ужастный беспредел который надо будет когда-нибудь убрать
+		if (this->Points[0] == rhs.Points[(rhs.get_col_p() - 1)]) {
+			for (int i = (this->get_col_p() - 1); i >= 0; i--) {
+				new_r.Points.PushBack(this->Points[i]);
+				new_r.Lengths.PushBack(this->Lengths[i]);
+			}
+
+			for (int i = (rhs.get_col_p() - 2); i >= 0; i--) {// начинаю добавлять с первой потому что сумма вида a -> b + b -> c = a -> b -> c
+				new_r.Points.PushBack(rhs.Points[i]);
+				new_r.Lengths.PushBack(rhs.Lengths[i - 1]);
+			}
 		}
-		
-		for (int i = 1; i < rhs.get_col_p(); i++) {// начинаю добавлять с первой потому что сумма вида a -> b + b -> c = a -> b -> c
-			new_r.Points.PushBack(rhs.Points[i]);
-			new_r.Lengths.PushBack(rhs.Lengths[i - 1]);
+		else if (this->Points[0] == rhs.Points[0]) {
+			for (int i = (this->get_col_p() - 1); i >= 0; i--) {
+				new_r.Points.PushBack(this->Points[i]);
+				new_r.Lengths.PushBack(this->Lengths[i]);
+			}
+
+			for (int i = 1; i < rhs.get_col_p(); i++) {// начинаю добавлять с первой потому что сумма вида a -> b + b -> c = a -> b -> c
+				new_r.Points.PushBack(rhs.Points[i]);
+				new_r.Lengths.PushBack(rhs.Lengths[i - 1]);
+			}
+		}
+		else if (this->Points[(this->col_points - 1)] == rhs.Points[0]) {
+			for (int i = 0; i < this->get_col_p(); i++) {
+				new_r.Points.PushBack(this->Points[i]);
+				new_r.Lengths.PushBack(this->Lengths[i]);
+			}
+
+			for (int i = 1; i < rhs.get_col_p(); i++) {// начинаю добавлять с первой потому что сумма вида a -> b + b -> c = a -> b -> c
+				new_r.Points.PushBack(rhs.Points[i]);
+				new_r.Lengths.PushBack(rhs.Lengths[i - 1]);
+			}
+		}
+		else if (this->Points[(this->col_points - 1)] == rhs.Points[(rhs.get_col_p() - 1)]) {
+			for (int i = 0; i < this->get_col_p(); i++) {
+				new_r.Points.PushBack(this->Points[i]);
+				new_r.Lengths.PushBack(this->Lengths[i]);
+			}
+
+			for (int i = (rhs.get_col_p() - 2); i >= 0; i--) {// начинаю добавлять с первой потому что сумма вида a -> b + b -> c = a -> b -> c
+				new_r.Points.PushBack(rhs.Points[i]);
+				new_r.Lengths.PushBack(rhs.Lengths[i - 1]);
+			}
 		}
 		return new_r;
 	}
